@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+}
+<html>
+	<head>
+        <title>Merchello Example Store | @CurrentPage.GetPropertyValue("pageTitle")</title>
+	</head>
+	<body>
+        <section id="content">
+            @RenderBody()
+        </section>
+	</body>
+</html>
