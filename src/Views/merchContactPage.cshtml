@@ -1,0 +1,57 @@
+@inherits MerchKit.Mvc.MerchKitTemplatePage
+
+@using MerchKit
+@{
+    Layout = "merchBase.cshtml";
+}
+
+@*Render a Google Map*@
+@if (CurrentPage.GetPropertyValue("displayMap") == true)
+{
+    <section id="banner">
+        <div id="map"></div>
+    </section>
+@*Render the banner*@    
+} else if (CurrentPage.WillWork("banner"))
+{
+<section id="banner">
+    @{
+        IPublishedContent image = Umbraco.Media(CurrentPage.GetPropertyValue("banner"));
+
+        @*Feed in view data to the partial view*@
+        var viewData = new ViewDataDictionary(ViewData)
+            {
+                {"Image", image},
+                {"Height", -1},
+                {"Width", 1900}
+            };
+    
+        @Html.Partial("merchRenderImage", viewData)
+    }
+</section>
+}
+
+<section id="primary">
+    <h1>@(CurrentPage.HasProperty("headline") && CurrentPage.HasValue("headline") ? CurrentPage.GetPropertyValue("headline") : CurrentPage.Name)</h1>
+    @CurrentPage.bodyText
+
+    @if (HomePage.WillWork("org"))
+    {
+    <div class="vcard">
+        <h2 class="org">@HomePage.GetPropertyValue("org")</h2>
+        <span class="adr">
+            @if(HomePage.WillWork("streetAddress")){<span class="street-address">@HomePage.GetPropertyValue("streetAddress")</span>}
+            @if(HomePage.WillWork("extendedAddress")){<span class="extended-address">@HomePage.GetPropertyValue("extendedAddress")</span>}
+            @if(HomePage.WillWork("locality")){<span class="locality">@HomePage.GetPropertyValue("locality")</span>}, 
+            @if(HomePage.WillWork("region")){<span class="region">@HomePage.GetPropertyValue("region")</span>} 
+            @if(HomePage.WillWork("postalCode")){<span class="postal-code">@HomePage.GetPropertyValue("postalCode")</span>}
+            @if(HomePage.WillWork("countryName")){<span class="country-name">@HomePage.GetPropertyValue("countryName")</span>}
+        </span>
+        @if(HomePage.WillWork("tel")){<span class="tel"><span class="type">Work</span><span class="value">@HomePage.GetPropertyValue("tel")</span></span>}
+    </div>
+    }
+
+
+    @Html.Action("RenderContactForm", "ContactFormSurface", new { area = "MerchKit" })
+</section>
+

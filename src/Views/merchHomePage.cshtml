@@ -1,0 +1,107 @@
+@inherits MerchKit.Mvc.MerchKitTemplatePage
+@using MerchKit
+@{
+    Layout = "merchBase.cshtml";
+    
+    var current = (IPublishedContent)CurrentPage;
+}
+
+<div id="banner">
+    @*Render the banner, otherwise a blank color behind it*@
+    @if (CurrentPage.WillWork("banner"))
+    {
+        IPublishedContent image = Umbraco.Media(CurrentPage.GetPropertyValue("banner"));
+
+        @*Feed in view data to the partial view*@
+        var viewData = new ViewDataDictionary(ViewData)
+            {
+                {"Image", image},
+                {"Height", -1},
+                {"Width", 1910}
+            };
+    
+        @Html.Partial("merchRenderImage", viewData)
+    }
+    else
+    {
+        <img src="http://placekitten.com/1910/715" alt="Kitten!" />
+    }
+
+    @*Render the banner headline and intro*@
+    @if(CurrentPage.WillWork("bannerHeadline") || CurrentPage.WillWork("bannerBrief")) {
+    <div class="intro">
+        @if(CurrentPage.WillWork("bannerHeadline"))
+        {<h1>@CurrentPage.GetPropertyValue("bannerHeadline")</h1>}
+        @if(CurrentPage.WillWork("bannerBrief"))
+        {<p>@CurrentPage.GetPropertyValue("bannerBrief")</p>}
+        <a href="#quick-links" class="arrow down"><i class="fa fa-angle-down"></i></a>
+    </div>
+    }
+
+</div>
+
+@*Render the Quick Links*@
+@Html.Partial("merchQuickLinks")
+
+@*If there is primary content, render i*@
+@if (CurrentPage.WillWork("bodyText"))
+{
+    <div class="brief">
+        <h1>@CurrentPage.GetPropertyValue("headline")</h1>
+        @CurrentPage.GetPropertyValue("bodyText")
+    </div>
+}
+
+@*Render the Featured Products*@
+@if (CurrentPage.WillWork("featuredProducts"))
+{
+    <ul class="featured product-list">
+        @*Only display the featured product if it has a thumbnail*@
+        @foreach (IPublishedContent product in current.MntpToPublishedContentList(UmbracoContext, "featuredProducts"))
+        {
+            //A hack for the starter kit to get the kittens to show at different heights if there are no images
+            var kittenHeight = NoWhammyStop.Next(200, 800);
+            
+            <li>
+                <a href="@product.Url">
+                    @*Render the product thumbnail*@
+                    @if(product.WillWork("thumbnail"))
+                    {
+                        var img = Umbraco.Media(product.GetPropertyValue("thumbnail"));
+                        IPublishedContent image = Umbraco.Media(product.GetPropertyValue("thumbnail"));
+                        @*Feed in view data to the partial view*@
+                        var viewData = new ViewDataDictionary(ViewData)
+                            {
+                                {"Image", image},
+                                {"Height", -1},
+                                {"Width", 572}
+                            };
+    
+                        @Html.Partial("merchRenderImage", viewData)
+                    }
+                    else
+                    {
+                        <img src="http://placekitten.com/572/@kittenHeight" />
+                    }
+                    <div class="info">
+                        <div class="wrapper">
+                            <h2>@product.Name</h2>
+                            <p class="price details">
+                                @*show price if product is connected in Merchello*@
+                                @if(product.WillWork("merchelloProduct") && product.GetProduct("merchelloProduct") != null){    
+                                    @*Show "from" if product has variants, otherwise just display the price*@
+                                    @(product.GetProduct("merchelloProduct").ProductVariants.Any() ? MvcHtmlString.Create("<em>from</em> ") : MvcHtmlString.Empty) @product.GetProduct("merchelloProduct").Price.ToString("C")
+                                @*Show text for product details if not connected in Merchello*@
+                                } else {
+                                    <em>view product info</em>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+}
+
+<a href="#top" class="arrow up"><i class="fa fa-angle-up"></i></a>

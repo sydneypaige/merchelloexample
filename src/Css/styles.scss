@@ -1,0 +1,682 @@
+// Global Variables
+/* Eric Meyer's Reset */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after { content: ''; content: none; }
+table {	border-collapse: collapse; border-spacing: 0; }
+
+// Font Declarations
+@import "font-awesome.min.css";
+
+//Font Variables
+
+// Global Styles
+
+//Mixins
+@mixin box-sizing { -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+@mixin transition { -webkit-transition: all ease .5s; -moz-transition: all ease .5s; -o-transition: all ease .5s; transition: all ease .5s; }
+@mixin flip { -moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); }
+@mixin label { font-family: Arial, sans-serif; font-size: .6em; text-transform: uppercase; }
+@mixin media ($width) { @media screen and (max-width: #{$width}em) { @content; } }
+
+html { height: 100%; 
+    @include media(60) { height: auto; }
+}
+
+body { position: relative; height: 100%; font: 20px 'Source Sans Pro', sans-serif; line-height: 1.6em; overflow-x: hidden; 
+    @include media(60) { font-size: 18px; height: auto; overflow-x: hidden; }
+    @include media(45) { font-size: 16px; }
+}
+
+h1 { font-size: 2.8em; line-height: 1.1em; margin-bottom: 18px; }
+h2, legend { font-size: 1.6em; line-height: 1.1em; margin-bottom: 10px; }
+h3 { font-size: 1.3em; line-height: 1.1em; margin-bottom: 5px; }
+h4 { font-size: 1em; line-height: 1.1em; margin-bottom: 5px; }
+h5 { font-size: .9em; line-height: 1.1em;  margin-bottom: 2px; }
+h6 {}
+p { margin-bottom: 1em; -moz-hyphens: auto; -ms-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; hyphens: auto; }
+ul {}
+ol {}
+li {}
+strong { font-weight: bold; }
+em { font-style: italic; }
+u {}
+a {	text-decoration: none; @include transition; 
+    &:active { outline: none; }
+    &:hover { outline: none; text-decoration: none; }
+}
+table { margin-bottom: 1em; -moz-hyphens: auto; -ms-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; hyphens: auto; }
+th, td { padding: 5px; border: solid 1px #ccc; }
+img {}
+
+img[style*="left"] { margin: 0 10px 10px 0; }
+img[style*="right"] { margin: 0 0 10px 10px; }
+
+label { display: block; margin-bottom: 10px; 
+    span { display: inline-block; width: 100px; 
+        .ie7 & { display: inline; }
+        .merchContactPage & { display: none; }
+    }
+}
+textarea, input[type="text"], input[type="number"], select { font-size: 16px; }
+input[type="text"], input[type="password"], input[type="number"] { display: inline-block; padding: 5px; width: 196px; border: solid 1px #b7b9b7;
+    .ie7 & { display: inline; }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+textarea { display: block; padding: 5px; width: 400px; min-height: 200px; }
+button, input[type="submit"], .button { cursor: pointer; background: none; border: solid 1px #b7b9b7; border-radius: 5px; width: 174px; padding: 12px 0; margin: 15px 0 30px; -webkit-appearance: none; @include label;
+    @include media(27) { width: 96%; margin: 0 auto; font-size: .75em; padding: 15px 0; margin: 20px auto; }
+    .merchProduct & {
+        @include media(27) { width: 100%; margin: 10px auto 20px; }
+    }
+    &:focus { outline: none; }
+    &.edit { padding: 0; width: auto; border: none; margin: 0; text-transform: none; font-family: Arial, sans-serif; font-size: .75em; 
+        &:hover { background: none; color: inherit; }
+    }
+}
+.button { display: block; text-align: center; line-height: 1em; 
+    &:hover { text-decoration: none; }
+}
+
+.vcard, .org, .street-address, .adr, .tel, .extended-address, .country-name, .fn { display: block; }
+.tel .type { display: none; }
+.adr, .tel { margin-bottom: 1em; }
+
+.arrow { position: relative; display: block; margin: 0 auto 58px; width: 75px; height: 75px; border-radius: 40px; font-size: 80px; text-align: center; 
+    &.up .fa { line-height: 67px; }
+    .product-list + & { margin: -90px auto 40px; z-index: 4; }
+    .additional-images + & { margin-top: -27px; }
+}
+
+#container { min-height: 100%; 
+    @include media(60) { min-height: auto; }
+}
+
+header { position: relative; display: block; padding: 10px 3.73684210526316% 25px; @include box-sizing; border-top: solid 4px #000;
+    @include media(60) { padding: 10px 0 25px 2.5%; }
+    @include media(36) { padding: 0; }
+    .Checkout & {
+        @include media(60) { padding-right: 2.5%; }
+        @include media(36) { padding: 0 2.5% 0 0; }
+    }
+    h1 { display: inline-block; vertical-align: middle; margin: 0; font-size: 1.6em; letter-spacing: -2px; 
+        @include media(60) { margin-bottom: 10px; }
+        @include media(36) { clear: both; margin-left: 2.5%; font-size: 1.8em; }
+    }
+    a:hover { text-decoration: none; }
+}
+.logo { position: absolute; top: 0; left: 0; display: block; background: transparent url(images/logo.png) no-repeat top left; text-indent: -9999em; overflow: hidden; }
+
+#content { position: relative; display: block; margin: 0 auto; @include box-sizing;
+    padding-bottom: 102px;
+    .merchTextPage &, .merchContactPage &, .merchTextPageTestimonial & {
+        ul { margin: 15px 0 15px 30px; list-style-type: disc; 
+            ul { list-style-type: circle; line-height: 17px; 
+                ul { list-style-type: square; }
+            }
+        }
+        ol { margin: 15px 0 15px 30px; list-style-type: decimal; 
+            ol { list-style-type: lower-alpha; line-height: 17px; 
+                ol { list-style-type: lower-roman; }
+            }
+        }
+        li { padding-bottom: 7px; line-height: 130%; }
+        #secondary li { padding-bottom: 0; line-height: 18px; }
+        ul ul, ol ol { 
+            li { padding-bottom: 0; padding-top: 10px; } 
+        }
+    }
+}
+
+footer { position: relative; display: block; @include box-sizing; height: 102px; margin-top: -102px;
+}
+
+.mindfly { display: block; font-family: Arial, sans-serif; font-size: .65em; line-height: 2.8em; text-align: center; padding-bottom: 40px; }
+
+.nav-toggle { display: none; }
+.menu, .footer-nav { display: inline-block; vertical-align: middle; padding: 13px 0 0; font-family: Arial, sans-serif; font-size: .65em; line-height: 13px;
+    li { position: relative; display: inline-block; z-index: 7; 
+        &:first-child { margin-left: 0; }
+        .ie7 & { display: inline; }
+        #secondary & { display: block; width: 100%; margin: 0; }
+    }
+    a { position: relative; display: block; padding: 0 20px; 
+        &:before { content: "|"; position: absolute; top: 0; left: -3px; }
+        &:hover { text-decoration: none; }
+    }
+    li:first-child a:before, #secondary & a:before { content: none; }
+}
+.menu {
+    @include media(60) { display: block; clear: both; font-size: .65em; }
+    @include media(45) { font-size: .75em; }
+    @include media(36) { padding-top: 0; font-size: .8em; display: none; overflow: hidden; }
+    &.open {
+        @include media(36) { height: auto; }
+    }
+    li:first-of-type a {
+        @include media(60) { padding-left: 0; }
+    }
+    li {
+        @include media(36) { width: 100%; text-align: center; }
+    }
+    a {
+        @include media(36) { padding: 20px 0; border-top: solid 1px #e6ebe7; }
+    }
+}
+
+.nav-toggle {
+    @include media(36) { color: #000; display: block; position: absolute; top: 51px; left: 120px; font-size: 24px; cursor: pointer; }
+}
+
+.footer-nav { display: block; text-align: center; 
+    @include media(27) { font-size: .9em; }
+    li {
+        @include media(27) { width: 49%; margin-bottom: 10px; }
+        &:nth-child(even) {
+            @include media(27) { text-align: left; }
+        }
+        &:nth-child(odd) {
+            @include media(27) { text-align: right; }
+        }
+        &:last-child {
+            @include media(27) { display: block; text-align: center; width: 100%; }
+        }
+    }
+}
+
+.side-menu { float: right; max-width: 80%; 
+    @include media(36) { max-width: 100%; width: 100%; margin-bottom: 10px; }
+}
+.basket { display: inline-block; font-family: arial, sans-serif; font-size: .65em; margin-top: 8px;
+    @include media(45) { position: absolute; right: 0; top: 47px; }
+    @include media(36) { position: absolute; right: 0; top: 40px; }
+    li { position: relative; display: inline-block; vertical-align: top; padding: 0 20px; 
+        @include media(60) { padding: 0 10px; }
+        &:before { content: "|"; position: absolute; top: 0; left: -3px; }
+        &:first-child {
+            @include media(36) { display: none; }
+            &::before { content: ""; }
+        }
+    }
+    i {
+        @include media(36) { font-size: 1.4em; display: inline-block; vertical-align: middle; margin-right: 3px; }
+    }
+}
+.count {
+    @include media(36) { display: inline-block; vertical-align: middle; padding: 0 5px; border-radius: 12px; font-size: .9em; line-height: 1.6em; }
+}
+
+.fa-shopping-cart { @include flip; }
+
+.social { display: inline-block; vertical-align: top; margin-top: -15px; 
+    @include media(36) { width: 100%; text-align: right; float: right; font-size: 1.4em; padding-bottom: 1px; }
+    li { display: inline-block; vertical-align: top; }
+    .search-box { overflow: hidden; @include transition;
+        input { border: none; padding: 2px 0px; margin: 26px 0 0 0; width: 0; @include transition; 
+            @include media(38) { margin-top: 19px; }
+        }
+        &.open input { padding: 2px 5px; margin: 26px 0 0 10px; 
+            @include media(38) { margin-top: 19px; }
+        } 
+    }
+    a { display: block; width: 15px; font-size: .75em; padding: 20px 10px 5px; text-align: center; cursor: pointer; 
+        @include media(38) { padding: 16px 7px 5px; }
+        @include media(36) { padding: 17px 26% 6px; }
+    }
+}
+.twitter:hover { background: #3a92c8; }
+.pinterest:hover { background: #c11a22; }
+.facebook:hover { background: #3b5998; }
+.instagram:hover { background: #517fa4; }
+.youtube:hover { background: #cc181e; }
+.tumblr:hover { background: #529ecc; }
+.flickr:hover { background: #ff0084; }
+.google:hover { background: #dd4c39; }
+.vimeo:hover { background: #44bbff; }
+.linkedin:hover { background: #006699; }
+
+#search { font-family: 'Source Sans Pro', sans-serif;}
+
+.breadcrumb { 
+    font-size: .8rem; list-style-type: none; margin: 0 0 20px 0; 
+    li { display: inline-block; padding: 0 5px; border-left: solid 1px #000; height: 7px;
+        &:first-child { border: none; padding: 0 5px 0 0; }
+        .ie7 & { display: inline; }
+    }
+}
+
+.merchTextPage .breadcrumb {
+    @extend .breadcrumb;
+}
+
+.merchTextPage {
+    header, #secondary {
+        ul { margin: 0; list-style-type: none; }
+    }
+    header .social { margin-top: -15px; }
+}
+
+.dropdown { position: relative; height: 40px; border: solid 1px #ccc;
+    .info & { width: 42%; margin: 10px auto; 
+        @include media(60) { width: 70%; }
+        @include media(27) { width: 100%; }
+    }
+    select { border: none; left: 0; height: 100%; -moz-opacity: 0.01; -o-opacity: 0.01; -webkit-opacity: 0.01; opacity: 0.01; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)"; position: absolute; top: 0; width: 103%; z-index: 2;  cursor: pointer; font-family: 'Source Sans Pro', sans-serif; font-size: .9em; }
+    .wrapper::after { content: "\f107"; font-family: "FontAwesome"; font-style: normal; font-weight: normal; font-variant: normal; line-height: 44px; right: 17px; position: absolute; top: -1px; speak: none; text-transform: none; }
+    span { font-size: .9em; text-align: left; left: 0; height: 40px; line-height: 40px; padding-left: 17px; padding-right: 17px; overflow: hidden; position: absolute; text-overflow: ellipsis; top: 0; -moz-transition: all .1s linear; -o-transition: all .1s linear; -webkit-transition: all .1s linear; transition: all .1s linear; width: 100%; white-space: nowrap; z-index: 1; @include box-sizing; }
+}
+
+//___ Home Page _________________________________________________________________
+#banner { position: relative; display: block; max-width: 100%; min-height: 450px; z-index: 1; overflow: hidden;
+    > img { position: absolute; top: 0; left: 50%; margin-left: -955px; 
+        @include media(60) { width: 1400px; margin-left: -700px; }
+    }
+}
+
+.intro { position: relative; display: block; width: 57.68421052631579%; text-align: center; margin: 12% auto 0; color: #fff; 
+    @include media(60) { width: 85%; margin-top: 7%; }
+    @include media(27) { font-size: .85em; }
+    h1 { font-size: 4em; line-height: 1em; margin-bottom: 30px; }
+    p { font-size: 1.55em; line-height: 1.3em; margin-bottom: 1.45em; }
+}
+
+#quick-links { text-align: center; margin: 35px 0 0;
+    li { display: inline-block; max-width: 32%; 
+        @include media(38) { max-width: 49%; }
+        @include media(27) { max-width: 98%; }
+    }
+    a { position: relative; display: block; font-size: 1.8em; 
+        @include media(60) { font-size: 1.4em; }
+        &:hover { opacity: .6; }
+    }
+    span { position: absolute; top: 50%; left: 0; width: 100%; text-align: center; line-height: 1.6em; }
+    img { max-width: 100%; 
+        @include media(60) { max-width: 100%; }
+    }
+}
+
+.brief { width: 41.05263157894737%; margin: 70px auto 0; text-align: center; 
+    @include media(60) { width: 60%; margin-top: 40px; }
+    @include media(45) { width: 80%; }
+    @include media(27) { width: 98%; }
+}
+
+//___ Product Listings _________________________________________________________________
+.product-list { padding: 0 1.33684210526316% 25px 3.73684210526316%;
+    @include media(27) { padding: 0 1% 25px 1%; width: 96%; }
+    li { position: relative; margin: 0 1.3% 20px 0; float: left; width: 30%; 
+        @include media(60) { width: 46%; margin-bottom: 10px; }
+        @include media(27) { width: 100%; margin: 0 0 10px; }
+    }
+    img { max-width: 100%; display: block; z-index: 2; }
+    a { display: block;
+        &:hover .info { opacity: 1; }
+    }
+    .wrapper { position: absolute; top: 40%; left: 0; width: 100%; }
+}
+
+.info { position: relative;
+    .product-list &, .related-products & { opacity: 0; position: absolute; top: 0; left: 0; height: 100%; width: 100%; text-align: center; z-index: 3;  @include box-sizing; @include transition;
+        &::before { content: ""; opacity: .75; top: 0; left: 0; right: 0; bottom: 0; position: absolute; z-index: -1; }
+        h2 { text-align: center; padding: 0 20px; @include box-sizing; }
+        .price { font-size: 1.3em; }
+        em { font-family: Arial, sans-serif; font-size: .5em; display: inline-block; vertical-align: middle; }
+    }
+    &.closed { height: 400px; overflow: hidden; }
+}
+
+.featured { padding-top: 50px; 
+    @include media(60) { padding-top: 25px; }
+}
+
+.related-products { text-align: center; margin-bottom: 115px;
+    @include media(38) { margin-bottom: 40px; }    
+    li { position: relative; display: inline-block; vertical-align: middle; height: 215px; margin-left: 16px; @include box-sizing;
+        @include media(60) { margin-bottom: 20px; }
+        @include media(38) { width: 48%; height: auto; margin: 0 auto 10px; }
+        @include media(27) { width: 96%; }
+        &:first-child { width: 215px; padding-top: 90px; margin-left: 0; margin-right: 10px;
+            @include media(38) { width: 96%; margin: 0 auto 30px; padding: 30px 0; }
+            &:after { left: 100%; top: 50%; border: solid transparent; content: ""; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(0, 0, 0, 0); border-left-color: #000; border-width: 11px; margin-top: -11px; 
+                @include media(38) { top: 100%; left: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(0, 0, 0, 0); border-top-color: #000; border-width: 30px; margin-left: -30px; border-left-color: none;  }
+            }
+        }
+    }
+    img { height: 100%; width: auto; z-index: 2; 
+        @include media(38) { display: block; max-width: 100%; height: auto; }
+    }
+    a { display: block; width: auto; height: 100%; 
+        &:hover .info { opacity: 1; }
+    }
+    h3 { font-size: .9em; }
+    .wrapper { position: absolute; top: 40%; left: 0; width: 100%; }
+}
+
+//___ Product Page _________________________________________________________________
+#primary { padding: 115px 3.73684210526316% 0; overflow: hidden; margin: 0 0 90px;
+    @include media(60) { padding-top: 60px; }
+    @include media(27) { padding: 60px 2% 0; margin-bottom: 30px; }
+    .Product & img { display: inline-block; vertical-align: top; max-width: 58.52272727272727%; }
+    .info { display: inline-block; width: 36.93181818181818%; float: right; text-align: center; 
+        @include media(60) { width: 100%; padding: 0 10%; @include box-sizing; }
+        @include media(27) { padding: 0 2.5%; }
+    }
+    .price { position: relative; }
+    .price, h1{
+        &:after { content: ""; display: block; height: 2px; width: 50px; margin: 18px auto 20px; opacity: .2; }
+    }
+}
+.main-image { max-width: 58.5%; 
+    @include media(60) { max-width: 100%; margin-bottom: 90px; }
+}
+.description { overflow: hidden; height: 150px; }
+.features {
+    li {
+        &:before { content:""; display: block; width: 254px; height: 1px; margin: 20px auto; }
+        &:first-child{ margin-top: 40px;
+            &:before { display: none; }
+        }
+    }
+}
+.toggle { display: inline-block; width: auto; background: none; border: none; padding: 0; @include label;
+    &:hover { text-decoration: none; background: none; }
+    &:before, &:after { content: ""; display: inline-block; width: 57px; height: 1px; vertical-align: middle; margin: 0 8px; }
+}
+
+.additional-images {
+    li { display: inline-block; width: 50%; margin-bottom: -10px;
+        @include media(45) { width: 100%; margin-left: 0; }
+        &:first-child { width: 100%; }
+        &:nth-child(even) { margin-right: -4px; 
+            @include media(45) { margin-left: 0; }
+        }
+    }
+    img { display: block; width: 100%; }
+}
+
+//___ Content Pages ____________________________________________________________________
+.merchTextPage, .merchTextPageTestimonial, .merchContactPage, .merchFAQPage {
+    #primary { width: 44.31818181818182%; margin: 0 auto; text-align: left; overflow: visible;
+        h1,h2,h3,h4,h5,h6 { text-align: center; } 
+        @include media(60) { width: auto; }
+        table { width: 100%; margin: 3em 0; 
+            th { background: #ededed; border-color: #ededed; @include label; }
+            td { border-color: #ededed; }
+        }        
+    }
+}
+
+.merchTextPage { 
+    blockquote { font-style: italic; margin: 2em 5% 2em 10%; padding-left: 5%; border-left: 5px solid;  }
+}
+
+.merchContactPage {
+    #primary { text-align: center; }
+}
+
+.testimonial { width: 145%; margin: 90px -22.5%;
+    @include media(60) { width: 124%; margin: 90px -11.5%; }
+    @include media(27) { width: 100%; margin: 45px 0; }
+    > img { display: inline-block; width: 49%; vertical-align: middle; 
+        @include media(38) { display: block; width: 92%; margin: 0 auto; }
+        + blockquote { padding: 30px 15px 0; }
+    }
+    blockquote { display: inline-block; width: 49%; vertical-align: middle; font-size: 1.4em; line-height: 1.6em; padding: 0 15px; @include box-sizing; 
+        @include media(38) { width: 100%; }
+        img { display: block; float: right; 
+            @include media(38) { float: none; margin: 0 auto; }
+        }
+        cite { font-style: italic; }
+    }
+}
+
+//___ FAQ Page ____________________________________________________________________
+.merchFAQPage {
+    p { margin-bottom: 2em; }
+}
+
+//___ Contact Page _________________________________________________________________
+#map { width: 100%; height: 400px; 
+    img { margin: 0 !important; }
+}
+
+.merchContactPage {
+    #primary {
+        input[type="text"], textarea { font-family: 'Source Sans Pro'; font-size: 1em; padding: 15px; width: 66%; margin: 0 auto; border: solid 1px #b7b9b7; @include box-sizing; 
+            @include media(27) { width: 98%; }
+        }
+    }
+}
+
+//___ Cart Page _________________________________________________________________
+.cart { width: 100%; text-align: center; margin-bottom: 50px;
+    @include media(27) { display: block; }
+    thead, tbody, tr, th, td {
+        @include media(27) { display: block; }
+    }
+    thead tr {
+        @include media(27) { position: absolute; top: -9999px; left: -9999px; }
+    }
+    tr {
+        @include media(27) { border: 1px solid #ededed; }
+    }
+    th, td { padding: 5px 20px; vertical-align: middle; }
+    th { background: #ededed; border-color: #ededed; color: #000; @include label; }
+    td { border-color: #ededed; padding: 20px; 
+        @include media(27) { border: none; border-bottom: 1px solid #ededed; position: relative; padding: 10px 10px 10px 50%; text-align: left; }
+        &:first-child { text-align: left; }
+        &:before {
+            @include media(27) { position: absolute; top: 12px; left: 10px; width: 45%; padding-right: 10px; white-space: nowrap; @include label; font-size: .75em; }
+        }
+        &:nth-of-type(1):before {
+            @include media(27) { content: "Product"; }
+        }
+        &:nth-of-type(2):before {
+            @include media(27) { content: "Price"; }
+        }
+        &:nth-of-type(3):before {
+            @include media(27) { content: "Quantity"; top: 17px; }
+        }
+        &:nth-of-type(4):before {
+            @include media(27) { content: "Total"; }
+        }
+    }
+    input[type="text"] { width: 65px; text-align: center;
+        @include media(45) { width: 40px; }
+    }
+    button { width: auto; border: none; margin: 0; font-size: .7em;
+        &:hover { background: none; color: #b51920; }
+    }
+    img { width: 100px; display: inline-block; vertical-align: middle; margin-right: 20px; 
+        @include media(27) { display: none; }
+    }
+    .name { width: 58%; text-align: left; }
+    .variant {
+        &:before { content: "/"; padding-right: 5px; }
+    }
+    + .subtotal { text-align: right; margin-bottom: 15px; }
+    .price {
+        @include media(45) { display: none; }
+    }
+    .delete {
+        @include media(27) { padding-left: 10px; text-align: center; font-size: 1.5em; }
+        button {
+            @include media(27) { padding: 0; color: #b51920; }
+        }
+    }
+}
+
+.subtotal {
+    .label { @include label; 
+        @include media(27) { font-size: 1em; }
+    }
+    .amount { display: inline-block; width: 142px; 
+        @include media(27) { font-size: 1.4em; }
+    }
+}
+
+.cart-buttons { float: right;
+    * { display: inline-block; }
+    input[type="submit"], .button { margin: 0; }
+    @include media(27) { float: none; }
+}
+
+.shop-more { @include label; margin-top: 23px; display: block; }
+
+.merchCheckoutPage {
+    h1 { text-align: center; }
+    #primary { padding: 115px 13.29545454545455% 0; 
+        @include media(60) { width: auto; padding-top: 40px; margin-bottom: 0; }
+        @include media(45) { padding: 60px 5% 0;}
+        @include media(27) { padding: 60px 2% 0; }
+        .price:after { display: none; }
+        > a { display: inline-block; 
+            @include media(27) { display: block; margin: 25px auto; font-size: .7em; text-align: center; }
+        }
+        .button {
+            @include media(27) { font-size: .75em; }
+        }
+    }
+}
+
+.empty { text-align: center; }
+
+//___ Checkout Page _________________________________________________________________
+.return { float: right; padding: 16px 0 0; font-family: Arial, sans-serif; font-size: .65em; line-height: 13px; }
+.checkout { display: block; position: relative; width: 56.30031948881789%; margin: 0 auto;
+    @media screen and (max-width: 95em) { width: 80%; }
+    @include media(60) { width: 90%; }
+    @include media(45) { width: 100%; }
+    &:before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%; border: solid 2px; @include box-sizing; }
+    fieldset{ position: relative; display: block; font-size: .8em; line-height: 1.6em;
+        &:after { content: ""; width: 100%; height: 2px; position: absolute; bottom: 0; left: 0; }
+    }
+    .fields, .results { max-height: 0; padding: 0 18%; overflow: hidden; @include box-sizing; transition: all 0.5s; transition-timing-function: ease;
+        &.open { max-height: 1000px; padding: 33px 18%;  
+            @include media(60) { padding: 33px 5%; }
+        }
+    }
+    h2 { margin-bottom: 40px; text-align: center; 
+        @include media(38) { margin-bottom: 20px; }
+    }
+    label {
+        span { display: none; }
+    }
+    input[type="text"] { font-family: 'Source Sans Pro'; font-size: 1em; padding: 10px; width: 100%; margin: 0 auto; border: solid 1px #b7b9b7; @include box-sizing; 
+        &:focus { outline:rgb(77, 144, 254) auto 5px; }
+    }
+    .half { width: 49%; display: inline-block; 
+        @include media(38) { width: 100%; margin: 0 auto 10px; }
+        &:nth-of-type(even) { margin-left: 1.13%; 
+            @include media(38) { margin-left: auto; }
+        }
+    }
+    .dropdown {
+        &.half { width: 48.5%; vertical-align: top; 
+            @include media(38) { width: 100%; margin: 0 auto 10px; }
+        }
+        &.labelFocus { outline:rgb(77, 144, 254) auto 5px; } 
+        span { display: block; font-size: 1em; }
+        select { width: 101%; }
+    }
+    .checkbox {
+        span { position: relative; display: inline-block; width: 90%; vertical-align: middle; 
+            &:before { content: "\f096"; font-family: "FontAwesome"; font-size: 1.1em; width: 20px; display: inline-block; vertical-align: middle; }
+        }
+        input[type="checkbox"] { display: none; 
+            &:checked + span {
+                &:before { content: "\f046"; }
+            }
+        }
+    }
+    input[type="submit"] { display: block; margin: 20px auto 0; font-size: .75em; }
+    .validation-error { max-height: 0; overflow: hidden; transition: all 0.5s ease;
+        &.open { max-height: 300px; }
+        ul { margin: 0 auto; padding-top: 20px; list-style-type: none; }
+        .error { color: red; }
+    }
+    .billingAddress { max-height: 0; overflow: hidden; transition: all 0.5s ease;
+        &.open { max-height: 500px; }
+    }
+}
+
+.results { line-height: 1.375em;
+    .edit { float: right; line-height: 2em; }
+}
+
+.summary { padding: 33px 18%;
+    @include media(60) { padding: 33px 5%; }
+    input[type="submit"] { margin-bottom: 20px; }
+}
+
+.order-summary { position: relative; width: 100%; font-size: 1.25em; margin-bottom: 20px; 
+    tr { /*hack for firefox*/ display: block; overflow: hidden; }
+    td { width: 50%; border: none; padding: 0; position: relative; /*hack for firefox*/ display: block; float: left;
+        &:nth-of-type(even) { text-align: right; }
+    }
+    .product {
+        td { vertical-align: top; }
+    }
+    .variant, .subtotal, .taxes, .shipping, .total { @include label;
+        td:last-child { text-transform: none; }
+    }
+    .variant { text-transform: none; display: block; line-height: 1.4em; }
+    .subtotal { position: relative;
+        td { padding-top: 50px;
+            &:before { content: ""; height: 2px; width: 100%; position: absolute; top: 25px; left: 0; }
+        }
+    }
+    .total { position: relative;
+        td { padding-top: 50px;
+            &:before { content: ""; height: 2px; width: 100%; position: absolute; top: 25px; left: 0; }
+            &:last-child { font-family: 'Source Sans Pro'; font-size: 1.7em; margin-left: -1px; }
+        }
+    }
+}
+
+//___ Receipt Page _________________________________________________________________
+.receipt { @extend .checkout; padding: 33px 10%; font-size: .8em; @include box-sizing; z-index: 2;
+    &:before { z-index: -1; }
+    p { font-size: 1.25em; }
+    span { line-height: 1.375em; }
+    table { margin-top: 30px; }
+    h3 { margin-top: 2.8em; @include label; font-size: .75em; }
+}

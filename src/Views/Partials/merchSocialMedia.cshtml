@@ -1,0 +1,38 @@
+﻿@inherits Merchello.Web.Mvc.MerchelloTemplatePage
+@{
+    IPublishedContent home = CurrentPage.AncestorOrSelf(1);
+    @*Display the list only if any of the social media links are filled in*@
+    <ul class="social">
+        <li><a class="search"><i class="fa fa-search"></i></a></li>
+        @RenderLink("twitter")
+        @RenderLink("pinterest")
+        @RenderLink("facebook")
+        @RenderLink("instagram")
+        @RenderLink("youtube")
+        @RenderLink("tumblr")
+        @RenderLink("flickr")
+        @RenderLink("vimeo")
+        @RenderLink("google")
+        @RenderLink("linkedin")
+    </ul>
+}
+
+@helper RenderLink(string social)
+{
+    IPublishedContent home = CurrentPage.AncestorOrSelf(1);
+    if (home.HasValue(social))
+    {
+        <li>
+            <a href="@home.GetPropertyValue(social)" target="_blank" class="@home.GetProperty(social).PropertyTypeAlias">
+            @if(home.GetProperty(social).PropertyTypeAlias == "google")
+            {
+                <i class="fa fa-@home.GetProperty(social).PropertyTypeAlias-plus"></i>
+            } else if (home.GetProperty(social).PropertyTypeAlias == "vimeo") {
+                <i class="fa fa-@home.GetProperty(social).PropertyTypeAlias-square"></i>
+            } else {
+                <i class="fa fa-@home.GetProperty(social).PropertyTypeAlias"></i>
+            }
+            </a>
+        </li>
+    }
+}

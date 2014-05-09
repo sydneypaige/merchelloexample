@@ -1,0 +1,35 @@
+@inherits MerchKit.Mvc.MerchKitTemplatePage
+@{
+    Layout = "merchBase.cshtml";
+}
+
+@*Render the banner*@
+@if (CurrentPage.WillWork("banner"))
+{
+<div id="banner">
+    @{
+        IPublishedContent image = Umbraco.Media(CurrentPage.GetPropertyValue("banner"));
+
+        @*Feed in view data to the partial view*@
+        var viewData = new ViewDataDictionary(ViewData)
+            {
+                {"Image", image},
+                {"Height", -1},
+                {"Width", 1900}
+            };
+    
+        @Html.Partial("merchRenderImage", viewData)
+    }
+</div>
+}
+
+<div id="primary">
+<h1>@(CurrentPage.WillWork("headline") ? CurrentPage.GetPropertyValue("headline") : CurrentPage.Name)</h1>
+@CurrentPage.bodyText
+
+@foreach (var q in Model.Content.Children) {
+    <h2>@q.Name</h2>
+    <p>@q.GetPropertyValue("answer")</p>
+}
+</div>
+<a href="#top" class="arrow up"><i class="fa fa-angle-up"></i></a>

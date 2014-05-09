@@ -1,0 +1,36 @@
+﻿@inherits Merchello.Web.Mvc.MerchelloTemplatePage
+@using File = System.IO.File
+@{
+    
+    // View Parameters
+    var img = (IPublishedContent)ViewData["Image"];
+    var width = (int)ViewData["Width"];
+    var height = (int)ViewData["Height"];
+    var css = (string)ViewData["CSS"];
+
+    // ImageGen Parameters
+    var imageGen = "&constrain=true&compression=100";
+    if (width != -1)
+    {
+        imageGen += "&width=" + width;
+    }
+    if (height != -1)
+    {
+        imageGen += "&height=" + height;
+    }
+    
+    if(!string.IsNullOrEmpty(css))
+    {
+        css = string.Format("class={0}", css);
+    }
+    
+    if(File.Exists(Server.MapPath("~/ImageGen.ashx")))
+    {
+        <img src="/ImageGen.ashx?image=(@img.Url)(@imageGen)" alt="@img.Name" @css/>
+    }
+    else
+    {
+        <img src="@img.Url" alt="@img.Name" @css />
+    }
+    
+}

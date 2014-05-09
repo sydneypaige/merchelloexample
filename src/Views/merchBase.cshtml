@@ -1,0 +1,115 @@
+﻿@inherits MerchKit.Mvc.MerchKitTemplatePage
+@using Merchello.Web
+@using MerchKit
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 ie"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 ie"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 ie"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    @*Render the page title, meta keywords, and meta description*@
+    @Html.Partial("merchPageTitleMeta")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <!-- Mobile Stylesheet - Uncomment if Used in this Project -->
+    <!--link rel="stylesheet" type="text/css" href="/css/mobile.css" /-->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- Standard iPhone --><link rel="apple-touch-icon" sizes="57x57" href="/touch-icon-iphone-114.png" />
+    <!-- Retina iPhone --><link rel="apple-touch-icon" sizes="114x114" href="/touch-icon-iphone-114.png" />
+    <!-- Standard iPad --><link rel="apple-touch-icon" sizes="72x72" href="/touch-icon-ipad-144.png" />
+    <!-- Retina iPad --><link rel="apple-touch-icon" sizes="144x144" href="/touch-icon-ipad-144.png" />    
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    
+    @*Render the global theme styles selected in the admin*@
+    @Html.Partial("merchGlobalStyles")
+    <!--script src="/scripts/libs/modernizer-2.6.1.min.js"></script-->
+</head>
+
+@*Render the DocType name as a CSS class on the body and a custom CSS class that can be added in General Properties in the admin*@
+<body@(Html.Raw(string.Format(" class=\"{0}\"", CurrentPage.HasValue("merchBodyCSS") ? string.Format("{0} {1}", CurrentPage.DocumentTypeAlias, CurrentPage.merchBodyCSS) : CurrentPage.DocumentTypeAlias))) id="top">
+    <div id="container">
+        <header role="banner">
+            <div id="google_translate_element"></div>
+
+            <nav class="side-menu">
+                @*Display the items in the cart and subtotal*@
+                <ul class="basket">
+                    @*Get the cart link*@
+                    <li><a href="@CartPage.Url"><i class="fa fa-shopping-cart"></i> <span class="count">@CurrentCustomer.Basket().Items.Count</span></a></li>
+                    <li>@CurrentCustomer.Basket().TotalBasketPrice.ToString("C")</li>
+                </ul>
+
+                @*Display social media links, if they exist*@
+                @Html.Partial("merchSocialMedia")
+            </nav>
+
+            @*If there is a logo, display the logo*@
+            @if(HomePage.HasProperty("logo") && HomePage.HasValue("logo"))
+            {
+                <h1><a href="/" class="logo"><img src="@HomePage.GetPropertyValue("logo")" alt="@Umbraco.Field("org", recursive: true)" /></a></h1>
+            @*Otherwise, if there's a company name, display the name*@                
+            } else if(HomePage.HasProperty("org") && HomePage.HasValue("org")) {
+                <h1><a href="/">@HomePage.GetPropertyValue("org")</a></h1>
+            @*Otherwise, please add a company name*@
+            } else {
+                <h1>Add a logo or company name</h1>
+            }
+
+            @*Main Navigation*@
+        	<nav id="main" class="menu">
+	            @Html.Action("NavigationMain", "Navigation", new { area = "MerchKit", excludeDocumentTypes = new[] { HomePage.DocumentTypeAlias }, maxLevels = 1, parentId = 0 } )
+	        </nav>
+		</header>				
+		
+        @*Primary content section*@
+		<section id="content" class="oneColumn">
+	        @RenderBody()
+        </section>
+
+	</div>
+	
+    @*Footer*@
+	<footer role="contentinfo">
+
+        @*Render the footer navigation links from the admin*@
+        <nav class="footer-nav">
+            <ul>
+                @if(HomePage.HasProperty("footerNav") && HomePage.HasValue("footerNav"))
+                {
+                    foreach(var link in HomePage.RelatedLinksToLinkList(UmbracoContext, "footerNav"))
+                    {
+                    <li><a href="@link.Url" target="@link.Target">@link.Title</a></li>
+                    }
+                }
+
+                @*At the end, add the site copyright*@
+                @if(HomePage.HasValue("copyrightYear") && HomePage.HasValue("org"))
+                {<li>&copy;@HomePage.GetPropertyValue("copyrightYear")  @HomePage.GetPropertyValue("org")</li>}
+            </ul>
+        </nav>
+
+        @*Theme credits*@
+        <section class="info">
+            <cite class="mindfly">Theme by <a href="http://www.mindfly.com" target="_blank">Mindfly</a>. Powered by <a href="http://www.umbraco.com" target="_blank">Umbraco</a> ... with a lot of <a href="http://www.proworks.com" target="_blank">ProWorks</a> love.</cite>
+        </section>
+
+    </footer>
+
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/scripts/libs/imagesloaded.pkgd.js"></script>
+	<script src="/scripts/libs/masonry.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+	<script src="/scripts/merch-functions.js"></script>
+    <script src="~/scripts/libs/angular.min.js"></script>
+    @*Render additional, page-specific scripts*@
+    @RenderSection("AdditionalScripts", false)
+</body>
+</html>
