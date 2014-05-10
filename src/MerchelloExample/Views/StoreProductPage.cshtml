@@ -1,4 +1,25 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits Merchello.Web.Mvc.MerchelloTemplatePage
+@using Merchello.Web
+
 @{
     Layout = "StoreBasePage.cshtml";
 }
+
+<h3>@Merchello.Product(@CurrentPage.merchelloProduct).Name</h3>
+<p>@CurrentPage.productDescription</p>
+
+<p>Price: @Merchello.Product(@CurrentPage.merchelloProduct).Price</p>
+    @foreach (var optionitem in @Merchello.Product(@CurrentPage.merchelloProduct).ProductOptions)
+    {
+        <span>@optionitem.Name
+            <select>
+            @foreach (var variantitem in optionitem.Choices)
+            {
+                <option>@variantitem.Name</option>
+            }
+            </select>
+        </span>
+    }
+
+<h3>BASKET</h3>
+<p>@CurrentCustomer.Basket().Items.Count</p>
